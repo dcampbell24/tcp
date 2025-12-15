@@ -21,8 +21,8 @@ fn main() {
 
                 thread::spawn(move || {
                     let mut buf = String::new();
-                    reader.read_line(&mut buf).unwrap();
-                    println!("{buf}");
+                    let count = reader.read_line(&mut buf).unwrap();
+                    println!("{count}: {buf}");
                     buf.clear();
                 });
 
