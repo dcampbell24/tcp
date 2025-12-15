@@ -1,8 +1,5 @@
 use std::{
-    net::TcpStream,
-    sync::mpsc::channel,
-    thread::{self, sleep},
-    time::Duration,
+    io::{BufRead, BufReader}, net::TcpStream, sync::mpsc::channel, thread::{self, sleep}, time::Duration
 };
 
 const ADDRESS: &str = "hnefatafl.org:49152";
@@ -17,8 +14,17 @@ fn main() {
 
             if message_trim == "start_tcp" {
                 println!("Connecting to server...");
-                TcpStream::connect(ADDRESS).unwrap();
+                let tcp_stream = TcpStream::connect(ADDRESS).unwrap();
                 println!("Connected.");
+
+                let mut reader = BufReader::new(tcp_stream.try_clone().unwrap());
+
+                thread::spawn(move || {
+                    let mut buf = String::new();
+                    reader.read_line(&mut buf).unwrap();
+                    println!("{buf}");
+                    buf.clear();
+                });
 
                 loop {
                     let message = rx.recv().unwrap();
