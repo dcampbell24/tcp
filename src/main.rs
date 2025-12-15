@@ -1,3 +1,9 @@
+use std::net::TcpStream;
+
+const ADDRESS: &str = "hnefatafl.org:49152";
+
 fn main() {
-    println!("Hello, world!");
+    println!("Connecting to server...");
+    TcpStream::connect(ADDRESS).unwrap();
+    println!("Connected.");
 }
