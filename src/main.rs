@@ -25,6 +25,7 @@ fn main() {
                     let message_trim = message.trim();
 
                     if message_trim == "stop_tcp" {
+                        println!("Disconnected.");
                         return;
                     }
                 }
@@ -33,6 +34,8 @@ fn main() {
     });
 
     tx.send("start_tcp").unwrap();
+    sleep(Duration::from_secs(3));
+
     tx.send("stop_tcp").unwrap();
 
     sleep(Duration::from_secs(1));
