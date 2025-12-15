@@ -1,5 +1,5 @@
 use std::{
-    net::{Shutdown, TcpStream},
+    net::TcpStream,
     sync::mpsc::channel,
     thread::{self, sleep},
     time::Duration,
@@ -17,7 +17,7 @@ fn main() {
 
             if message_trim == "start_tcp" {
                 println!("Connecting to server...");
-                let tcp_stream = TcpStream::connect(ADDRESS).unwrap();
+                TcpStream::connect(ADDRESS).unwrap();
                 println!("Connected.");
 
                 loop {
@@ -25,10 +25,6 @@ fn main() {
                     let message_trim = message.trim();
 
                     if message_trim == "stop_tcp" {
-                        tcp_stream
-                            .shutdown(Shutdown::Both)
-                            .expect("shutdown call failed");
-
                         return;
                     }
                 }
